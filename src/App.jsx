@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Button } from "@/components/ui/button"
 
 
 
@@ -7,7 +8,9 @@ function App() {
 
   return (
     
-     <h1>Devtinder</h1>
+     <div className="flex justify-center items-center h-screen">
+      <Button variant="default">Hello From Shadcn!</Button>
+    </div>
 
   )
 }
