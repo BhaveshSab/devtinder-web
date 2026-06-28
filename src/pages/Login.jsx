@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Lock, User, Code2, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Lock, User, Code2, ArrowRight, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../lib/userSlice";
 import { useNavigate } from "react-router-dom";
+
 // Framer Motion Variants
 const containerVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -33,6 +34,8 @@ export default function Login() {
   const [emailId, setEmailId] = useState("bhavesh.cool2005@gmail.com");
   const [password, setPassword] = useState("@Bhavesh123");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // State for dynamic backend errors
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,19 +43,32 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents the page from refreshing on form submit
     setIsLoading(true);
+    setErrorMessage(""); // Reset previous error state before trying again
     
     try {
       const res = await axios.post("http://localhost:3000/login", { 
         username, 
         emailId, 
         password 
-      },{withCredentials: true});
+      }, { withCredentials: true });
+      
       console.log("Login successful:", res.data);
       // Dispatch the user data to Redux store
       dispatch(addUser(res.data));
-       return navigate("/feed");
+      return navigate("/feed");
+      
     } catch (err) {
       console.error("Login failed:", err);
+      
+      // Extract the error message dynamically from the backend response
+      // It checks common patterns like err.response.data.message or err.response.data
+      const backendMessage = 
+        err.response?.data?.error || 
+        err.response?.data?.message || 
+        (typeof err.response?.data === 'string' ? err.response.data : "Login failed. Please check your credentials.");
+      
+      setErrorMessage(backendMessage); // Set the error to display in the UI
+      
     } finally {
       setIsLoading(false); // Stop loading animation regardless of success/fail
     }
@@ -156,6 +172,28 @@ export default function Login() {
                   </>
                 )}
               </Button>
+
+              {/* DYNAMIC ANIMATED ERROR CONTAINER */}
+              <AnimatePresence>
+                {errorMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    className="mt-4 flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-500 dark:text-red-400 shadow-inner"
+                  >
+                    <AlertCircle className="h-5 w-5 shrink-0 text-red-500 dark:text-red-400 mt-0.5 flex item justify-center" />
+                    <div className="flex-1">
+                      <p className="font-semibold leading-none mb-1">Login failed</p>
+                      <p className="text-xs text-red-500/80 dark:text-red-400/80 leading-snug">
+                        {errorMessage}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
             </motion.div>
           </form>
 

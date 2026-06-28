@@ -10,11 +10,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSelector } from "react-redux"; // Importing useSelector to access Redux store
+import {Link} from "react-router-dom";
+import { useDispatch } from "react-redux"; // Importing useDispatch to dispatch actions
+import { removeUser } from "../lib/userSlice";
+import { useNavigate } from "react-router-dom"; // Importing useNavigate to programmatically navigate
+import axios from "axios"; // Importing axios for making HTTP requests
 
 // Added 'user' as a prop so it doesn't throw a "user is not defined" error
 export default function Header() {
+  const user = useSelector((store) => store.user?.message || store.user);
+  const dispatch = useDispatch(); // Importing useDispatch to dispatch actions
+  const navigate = useNavigate(); // Importing useNavigate to programmatically navigate
   
-  const user = useSelector((store) => store.user);
+  const handleLogout = () => {
+
+    try{axios.post("http://localhost:3000/logout", {}, { withCredentials: true })
+  dispatch(removeUser());
+return navigate("/login");}catch(error){console.error("Logout failed:", error);}
+
+  }
+  
   return (
 
     
@@ -63,24 +78,30 @@ export default function Header() {
               <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none text-foreground">{user.user.firstName}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{user.user.email}</p>
+                    <p className="text-sm font-medium leading-none text-foreground">{user.firstName}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                
+                <DropdownMenuItem className="cursor-pointer" asChild>
+                  <Link to="/profile" className="flex w-full items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Preferences</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer text-red-500 focus:bg-red-50 focus:text-red-600">
+
+                <DropdownMenuItem className="cursor-pointer text-red-500 focus:bg-red-50 focus:text-red-600" onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
+              
               </DropdownMenuContent>
             </DropdownMenu>
           )}
