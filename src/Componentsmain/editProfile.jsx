@@ -7,7 +7,7 @@ const EditProfile = ({user,handleChange,handleSave,message,formData} ) => {
   
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-card rounded-3xl border shadow-lg mt-10">
+    <div className="w-xl h-auto justify-center p-6 bg-card rounded-3xl border shadow-lg mt-10">
       <h2 className="text-2xl font-bold mb-6">Edit Profile</h2>
       <div className="space-y-4">
         <Input 
@@ -28,6 +28,14 @@ const EditProfile = ({user,handleChange,handleSave,message,formData} ) => {
           value={formData.avatar} 
           onChange={handleChange} 
         />
+      
+      <Input 
+          name="gender" 
+          placeholder="What is your Gender" 
+          value={formData.gender} 
+          onChange={handleChange} 
+        />
+
         <Textarea 
           name="about" 
           placeholder="About Me" 

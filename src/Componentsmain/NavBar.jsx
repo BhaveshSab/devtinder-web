@@ -16,6 +16,7 @@ import { removeUser } from "../lib/userSlice";
 import { useNavigate } from "react-router-dom"; // Importing useNavigate to programmatically navigate
 import axios from "axios"; // Importing axios for making HTTP requests
 
+
 // Added 'user' as a prop so it doesn't throw a "user is not defined" error
 export default function Header() {
   const user = useSelector((store) => store.user?.message || store.user);
@@ -51,9 +52,10 @@ return navigate("/login");}catch(error){console.error("Logout failed:", error);}
 
         {/* Center: Main Navigation (Hidden on mobile) */}
         <nav className="hidden md:flex items-center gap-8  text-lg font-semibold text-foreground">
-          <a href="#" className="text-foreground transition-colors hover:text-indigo-500">Find Matches</a>
-          <a href="#" className="text-muted-foreground transition-colors hover:text-indigo-500">Connections</a>
-          <a href="#" className="text-muted-foreground transition-colors hover:text-indigo-500">Message</a>
+          <Link to="/feed" className="text-foreground transition-colors hover:text-indigo-500">Feed</Link>
+          <Link to="/Matches" className="text-muted-foreground transition-colors hover:text-indigo-500">Matches</Link>
+          <Link to="/Message" className="text-muted-foreground transition-colors hover:text-indigo-500">Message</Link>
+          <Link to="/Connections" className="text-muted-foreground transition-colors hover:text-indigo-500">Connections</Link>
         </nav>
 
         {/* Right Side: Actions & Profile DIV (This was the one causing the error) */}
@@ -69,16 +71,16 @@ return navigate("/login");}catch(error){console.error("Logout failed:", error);}
                 <Button variant="ghost" className="relative h-12 w-12 rounded-full border border-border/50 hover:bg-accent">
                   <Avatar className="h-12 w-12">
                     {/* Random placeholder image, fallback to initials */}
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@user" />
+                    <AvatarImage src= {user.avatar || "https://github.com/shadcn.png" } alt="@user" />
                     <AvatarFallback className="bg-indigo-100 text-indigo-700 font-semibold">BS</AvatarFallback> 
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               
               <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
+                <DropdownMenuLabel className="font-stretch-extra-condensed">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none text-foreground">{user.firstName}</p>
+                    <p className="text-sm font-medium leading-none text-foreground">{user.firstName.toUpperCase()}</p>
                     <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                   </div>
                 </DropdownMenuLabel>

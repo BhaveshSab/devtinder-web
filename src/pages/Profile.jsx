@@ -12,11 +12,13 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    firstName: "user.firstName",
+    firstName: "",
     lastName: "",
     avatar: "",
+    gender: "",
     about: "",
     skills: "",
+    
   });
 
   // Use useEffect to update the form state once the user data arrives from Redux
@@ -26,6 +28,7 @@ const Profile = () => {
         firstName: user.firstName || "",
         lastName: user.lastName || "",
         avatar: user.avatar || "",
+        gender: user.gender || "",
         about: user.about || "",
         skills: user.skills ? user.skills.join(", ") : "",
       });

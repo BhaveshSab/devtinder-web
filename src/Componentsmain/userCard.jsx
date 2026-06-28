@@ -1,10 +1,15 @@
 import { motion } from "framer-motion";
-import { Code2, Terminal, X, Heart, MapPin, Briefcase, User } from "lucide-react";
+import { Code2, Terminal, X, Heart, Briefcase, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { removeFeed } from "../lib/feedSlice";
 
-export default function UserCard({ user, onPass, onConnect }) {
-  // Destructure the user object with safe fallbacks
+export default function UserCard({ user }) {
+  // 1. Destructure _id instead of id
+  const dispatch = useDispatch();
   const {
+    _id,
     firstName = "Unknown",
     lastName = "Developer",
     username = "dev",
@@ -14,7 +19,24 @@ export default function UserCard({ user, onPass, onConnect }) {
     gender,
   } = user;
 
-  // Generate a dynamic placeholder avatar if the user doesn't have one
+  const handleSendRequest = async (status, targetUserId) => {
+    try {
+      // Using template literals for a cleaner URL
+      await axios.post(
+        `http://localhost:3000/request/send/${status}/${targetUserId}`,
+        {},
+        { withCredentials: true }
+      );
+      
+      // 2. Safely trigger parent UI updates instead of logging out via Redux
+    
+      dispatch(removeFeed(_id)); // Remove the user from the feed after action
+
+    } catch (err) {
+      console.error("Error sending request:", err);
+    }
+  };
+
   const displayAvatar = avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}&backgroundColor=c0aede,b6e3f4`;
 
   return (
@@ -23,25 +45,21 @@ export default function UserCard({ user, onPass, onConnect }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95, y: -20 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="relative w-full max-w-sm mx-auto group"
+      className="relative w-full max-w-sm mx-auto group overflow-hidden rounded-3xl border border-border/50 bg-card shadow-2xl transition-all duration-300"
     >
-      {/* Premium Ambient Glow Behind the Card */}
       <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl blur-lg opacity-30 group-hover:opacity-60 transition duration-500" />
 
-      {/* Actual Card Container */}
-      <div className="relative w-full bg-card rounded-3xl overflow-hidden shadow-2xl border border-border/50">
+      <div className="relative w-full bg-black rounded-3xl overflow-hidden shadow-2xl border border-border/50">
         
-        {/* 1. Image Section */}
+        {/* Image Section */}
         <div className="relative h-[420px] w-full bg-muted overflow-hidden">
           <img
             src={displayAvatar}
             alt={`${firstName}'s avatar`}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          {/* Gradient overlay to make text readable */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           
-          {/* Name and Basic Info overlaying the image */}
           <div className="absolute bottom-0 left-0 w-full p-6 text-white">
             <h2 className="text-3xl font-extrabold tracking-tight capitalize flex items-center gap-2">
               {firstName} {lastName}
@@ -58,10 +76,9 @@ export default function UserCard({ user, onPass, onConnect }) {
           </div>
         </div>
 
-        {/* 2. Details Section */}
+        {/* Details Section */}
         <div className="p-6 space-y-6 bg-background/95 backdrop-blur-sm relative z-10">
           
-          {/* About/Bio */}
           <div className="space-y-2">
             <h3 className="text-xs font-bold tracking-wider text-muted-foreground uppercase flex items-center gap-1.5">
               <Briefcase size={14} /> About Me
@@ -71,7 +88,6 @@ export default function UserCard({ user, onPass, onConnect }) {
             </p>
           </div>
 
-          {/* Tech Stack / Skills */}
           <div className="space-y-3">
             <h3 className="text-xs font-bold tracking-wider text-muted-foreground uppercase flex items-center gap-1.5">
               <Code2 size={14} /> Tech Stack
@@ -92,21 +108,24 @@ export default function UserCard({ user, onPass, onConnect }) {
             </div>
           </div>
 
-          {/* 3. Action Buttons (Pass / Connect) */}
+          {/* Action Buttons */}
           <div className="flex items-center justify-center gap-6 pt-4 pb-2 border-t border-border/50">
+            
+            {/* FIX: Red X Button now sends "ignored" */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={onPass}
+              onClick={() => handleSendRequest("ignored", _id)}
               className="h-14 w-14 rounded-full bg-red-100 text-red-500 flex items-center justify-center shadow-lg border border-red-200 hover:bg-red-500 hover:text-white transition-all duration-300 relative z-20"
             >
               <X size={28} strokeWidth={2.5} />
             </motion.button>
 
+            {/* FIX: Purple Heart Button now sends "interested" */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={onConnect}
+              onClick={() => handleSendRequest("interested", _id)}
               className="h-14 w-14 rounded-full bg-indigo-100 text-indigo-500 flex items-center justify-center shadow-lg border border-indigo-200 hover:bg-indigo-500 hover:text-white transition-all duration-300 relative z-20"
             >
               <Heart size={28} strokeWidth={2.5} />

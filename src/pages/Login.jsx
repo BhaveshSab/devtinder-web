@@ -8,7 +8,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../lib/userSlice";
 import { useNavigate } from "react-router-dom";
-
+import {Link} from "react-router-dom"; // Importing Link for navigation to signup page
 // Framer Motion Variants
 const containerVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -200,9 +200,9 @@ export default function Login() {
           {/* Footer */}
           <motion.div variants={itemVariants} className="mt-6 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <a href="#" className="font-medium text-indigo-500 hover:text-indigo-400 transition-colors">
+            <Link to="/signup" className="font-medium text-indigo-500 hover:text-indigo-400 transition-colors">
               Sign up
-            </a>
+            </Link>
           </motion.div>
           
         </div>
