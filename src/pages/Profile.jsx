@@ -48,7 +48,7 @@ const Profile = () => {
         skills: formData.skills.split(",").map((s) => s.trim()),
       };
 
-      const res = await axios.patch("http://localhost:3000/profile/edit", payload, {
+      const res = await axios.patch("https://devtinder-backend-1-usc5.onrender.com/profile/edit", payload, {
         withCredentials: true,
       });
 

@@ -5,14 +5,14 @@ import { addRequests } from '../lib/requestSlice';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-// http://localhost:3000/request/received
+// https://devtinder-backend-1-usc5.onrender.com/request/received
 const Matches = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.requests);
 
   const fetchRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/request/received', { withCredentials: true });
+        const response = await axios.get('https://devtinder-backend-1-usc5.onrender.com/request/received', { withCredentials: true });
         dispatch(addRequests(response.data.message));
         console.log('Received requests:', response.data);
       } catch (error) {

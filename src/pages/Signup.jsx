@@ -31,7 +31,7 @@ const Signup = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/signup",
+        "https://devtinder-backend-1-usc5.onrender.com/signup",
         formData,
         { withCredentials: true }
       );

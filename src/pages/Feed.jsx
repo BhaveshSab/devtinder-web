@@ -14,7 +14,7 @@ const Feed = () => {
     try {
       if (feed && feed.length > 0) return;
 
-      const res = await axios.get("http://localhost:3000/user/feed", {
+      const res = await axios.get("https://devtinder-backend-1-usc5.onrender.com/user/feed", {
         withCredentials: true,
       });
       

@@ -21,7 +21,7 @@ const BodyContainer = () => {
    
     try {
       const res = await axios.get(
-         "http://localhost:3000/profile/view",
+         "https://devtinder-backend-1-usc5.onrender.com/profile/view",
         { withCredentials: true }
       );
       

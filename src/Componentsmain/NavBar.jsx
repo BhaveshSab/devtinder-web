@@ -25,7 +25,7 @@ export default function Header() {
   
   const handleLogout = () => {
 
-    try{axios.post("http://localhost:3000/logout", {}, { withCredentials: true })
+    try{axios.post("https://devtinder-backend-1-usc5.onrender.com/logout", {}, { withCredentials: true })
   dispatch(removeUser());
 return navigate("/login");}catch(error){console.error("Logout failed:", error);}
 

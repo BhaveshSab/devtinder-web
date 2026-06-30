@@ -11,7 +11,7 @@ const RequestCard = ({ request }) => {
   if (!sender) return null;
 
   const requestreview = (status,id) => {
-    try{const res = axios.post("http://localhost:3000/request/review/" + status + "/" + id, {} , {
+    try{const res = axios.post("https://devtinder-backend-1-usc5.onrender.com/request/review/" + status + "/" + id, {} , {
       withCredentials: true
     }
        );

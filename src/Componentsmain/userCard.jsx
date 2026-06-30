@@ -23,7 +23,7 @@ export default function UserCard({ user }) {
     try {
       // Using template literals for a cleaner URL
       await axios.post(
-        `http://localhost:3000/request/send/${status}/${targetUserId}`,
+        `https://devtinder-backend-1-usc5.onrender.com/request/send/${status}/${targetUserId}`,
         {},
         { withCredentials: true }
       );

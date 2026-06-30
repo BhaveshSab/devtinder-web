@@ -16,7 +16,7 @@ const Connections = () => {
   const fetchConnections = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/user/connections",
+        "https://devtinder-backend-1-usc5.onrender.com/user/connections",
         { withCredentials: true }
       );
       dispatch(addConnectionRequests(res.data.message));
