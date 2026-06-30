@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConnectionRequests } from '../lib/connectionSlice';
-import ConnectionCard from "../components/Componentsmain/ConnectionCard"; // Ensure this path matches your actual folder structure
+import ConnectionCard from "../Componentsmain/ConnectionCard"; // Ensure this path matches your actual folder structure
 
 const Connections = () => {
   const dispatch = useDispatch();
