@@ -55,7 +55,7 @@ export default function Login() {
       console.log("Login successful:", res.data);
       // Dispatch the user data to Redux store
       dispatch(addUser(res.data));
-      return navigate("/feed");
+      return navigate("/user/feed");
       
     } catch (err) {
       console.error("Login failed:", err);
