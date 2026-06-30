@@ -1,5 +1,5 @@
 import React from 'react'
-import RequestCard from '../Componentsmain/requestCard'
+import RequestCard from '../Componentsmain/RequestCard'
 import { useDispatch, useSelector } from 'react-redux';
 import { addRequests } from '../lib/requestSlice';
 import { useEffect } from 'react';
