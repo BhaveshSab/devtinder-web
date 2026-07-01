@@ -37,7 +37,7 @@ const Login = () => {
       
       // Store user data in Redux
       if (res.data?.message) {
-        dispatch(addUser(res.data.message));
+        dispatch(addUser(res.data.user || res.data.message));
         navigate("/feed");
       }
     } catch (err) {

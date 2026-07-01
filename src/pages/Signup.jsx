@@ -46,7 +46,7 @@ const Signup = () => {
       }
       
       setTimeout(() => {
-        navigate("/feed");
+        navigate("/login");
       }, 2000);
     } catch (err) {
       console.error("Signup error:", err);
