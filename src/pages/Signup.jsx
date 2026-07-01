@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import { User, Mail, Lock, ArrowRight, Loader2, Code2 } from "lucide-react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../lib/userSlice";
 // FIX: Removed unused imports and added necessary ones for navigation and state management
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   
   const [formData, setFormData] = useState({
     firstName: "",
@@ -36,6 +39,12 @@ const Signup = () => {
         { withCredentials: true }
       );
       setSuccess(true);
+      
+      // Store user data in Redux
+      if (res.data?.message) {
+        dispatch(addUser(res.data.message));
+      }
+      
       setTimeout(() => {
         navigate("/feed");
       }, 2000);

@@ -28,10 +28,13 @@ function App() {
       <div className="main-body h-full w-full bg-bg text-text"></div>
       <BrowserRouter basename="/">
           <Routes>
+            {/* Public routes - no BodyContainer */}
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+            
+            {/* Protected routes - wrapped with BodyContainer */}
             <Route path="/" element={<BodyContainer />}>
               <Route path="/" element={<Home />}></Route>
-              <Route path="/login" element={<Login />}></Route>
-              <Route path="/signup" element={<Signup />}></Route>
               <Route path="/feed" element={<Feed />}></Route>
               <Route path="/network" element={<Networks />}></Route>
               <Route path="/profile" element={<Profile />}></Route>
@@ -44,7 +47,7 @@ function App() {
         </BrowserRouter>
          </Provider>
       
-  
+    
   )
 }
 
