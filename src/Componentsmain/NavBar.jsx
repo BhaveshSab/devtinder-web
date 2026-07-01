@@ -24,11 +24,13 @@ export default function Header() {
   const navigate = useNavigate(); // Importing useNavigate to programmatically navigate
   
   const handleLogout = async () => {
-
-    try{ await axios.post("https://devtinder-backend-1-usc5.onrender.com/logout", {}, { withCredentials: true })
-  dispatch(removeUser());
-return navigate("/login");}catch(error){console.error("Logout failed:", error);}
-
+    try {
+      await axios.post("https://devtinder-backend-1-usc5.onrender.com/logout", {}, { withCredentials: true })
+      dispatch(removeUser());
+      return navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   }
   
   return (
