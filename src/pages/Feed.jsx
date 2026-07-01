@@ -19,6 +19,7 @@ const Feed = () => {
       });
       
       dispatch(addFeed(res.data.message));
+      
     } catch (err) {
       console.error("Error fetching feed:", err);
     }
