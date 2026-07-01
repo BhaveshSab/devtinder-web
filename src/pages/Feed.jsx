@@ -3,8 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../lib/feedSlice";
 import UserCard from "../Componentsmain/userCard"; 
-import { AnimatePresence, motion } from "framer-motion"; // Added 'motion' here! // 1. Import AnimatePresence
-
+import { AnimatePresence, motion } from "framer-motion";
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -12,16 +11,24 @@ const Feed = () => {
 
   const getFeed = async () => {
     try {
-      if (feed && feed.length > 0) return;
+      if (Array.isArray(feed) && feed.length > 0) return;
 
       const res = await axios.get("https://devtinder-backend-1-usc5.onrender.com/user/feed", {
         withCredentials: true,
       });
       
-      dispatch(addFeed(res.data.message));
+      const feedData = res?.data?.message;
+      
+      // Ensure we only put arrays into Redux
+      if (Array.isArray(feedData)) {
+        dispatch(addFeed(feedData));
+      } else {
+        dispatch(addFeed([]));
+      }
       
     } catch (err) {
       console.error("Error fetching feed:", err);
+      dispatch(addFeed([])); // Prevent endless loading if API fails
     }
   };
 
@@ -29,23 +36,20 @@ const Feed = () => {
     getFeed();
   }, []);
 
-  const hasUsers = feed && feed.length > 0;
+  // Safely check if feed is actually an array before checking length
+  const hasUsers = Array.isArray(feed) && feed.length > 0;
+  const isLoading = !Array.isArray(feed); 
 
   return (
-    // 2. Added overflow-hidden to prevent scrollbars during swipe animations
     <div className="flex flex-col items-center justify-center p-4 min-h-[calc(100vh-80px)] overflow-hidden">
-      
-      {/* 3. Wrap the conditional logic in AnimatePresence */}
       <AnimatePresence mode="popLayout">
         {hasUsers ? (
           <UserCard 
-            // 4. CRITICAL: The key tells Framer Motion when a specific card is removed
-            key={feed[0]._id} 
+            // Use optional chaining (?.) so it doesn't crash if _id is missing
+            key={feed[0]?._id || "fallback-key"} 
             user={feed[0]} 
-            // 5. Removed onPass and onConnect props since the card now handles its own Redux dispatch
           />
         ) : (
-          // 6. Added a motion key to the empty state so it fades in nicely too (optional but recommended)
           <motion.div 
             key="empty-state"
             initial={{ opacity: 0 }}
@@ -53,13 +57,12 @@ const Feed = () => {
             className="text-center space-y-4"
           >
             <h2 className="text-2xl font-bold text-muted-foreground">
-              {feed === null ? "Loading..." : "No new developers found!"}
+              {isLoading ? "Loading..." : "No new developers found!"}
             </h2>
             <p className="text-sm text-muted-foreground">Check back later for new connections.</p>
           </motion.div>
         )}
       </AnimatePresence>
-      
     </div>
   );
 };

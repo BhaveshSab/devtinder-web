@@ -6,8 +6,9 @@ import { useDispatch } from "react-redux";
 import { removeFeed } from "../lib/feedSlice";
 
 export default function UserCard({ user }) {
-  // 1. Destructure _id instead of id
   const dispatch = useDispatch();
+  
+  // FIX: Added '|| {}' so if user is undefined, destructuring doesn't crash
   const {
     _id,
     firstName = "Unknown",
@@ -17,29 +18,28 @@ export default function UserCard({ user }) {
     about,
     skills = [],
     gender,
-  } = user;
+  } = user || {}; 
+
+  // Early return if data is invalid (moved above the functions for safety)
+  if (!user || !firstName || firstName === "Unknown") {
+    return null; 
+  }
 
   const handleSendRequest = async (status, targetUserId) => {
     try {
-      // Using template literals for a cleaner URL
       await axios.post(
         `https://devtinder-backend-1-usc5.onrender.com/request/send/${status}/${targetUserId}`,
         {},
         { withCredentials: true }
       );
       
-      // 2. Safely trigger parent UI updates instead of logging out via Redux
-    
-      dispatch(removeFeed(_id)); // Remove the user from the feed after action
+      // Removes the user, causing Feed to re-render with the next person in line
+      dispatch(removeFeed(_id)); 
 
     } catch (err) {
       console.error("Error sending request:", err);
     }
   };
-
-  if (!user || !user.firstName) {
-    return null; // Or return a loading skeleton
-  }
 
   const displayAvatar = avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}&backgroundColor=c0aede,b6e3f4`;
 
@@ -114,8 +114,6 @@ export default function UserCard({ user }) {
 
           {/* Action Buttons */}
           <div className="flex items-center justify-center gap-6 pt-4 pb-2 border-t border-border/50">
-            
-            {/* FIX: Red X Button now sends "ignored" */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -125,7 +123,6 @@ export default function UserCard({ user }) {
               <X size={28} strokeWidth={2.5} />
             </motion.button>
 
-            {/* FIX: Purple Heart Button now sends "interested" */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
