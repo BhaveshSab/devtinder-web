@@ -37,6 +37,10 @@ export default function UserCard({ user }) {
     }
   };
 
+  if (!user || !user.firstName) {
+    return null; // Or return a loading skeleton
+  }
+
   const displayAvatar = avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}&backgroundColor=c0aede,b6e3f4`;
 
   return (

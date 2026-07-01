@@ -25,7 +25,7 @@ export default function Header() {
   
   const handleLogout = () => {
 
-    try{axios.post("https://devtinder-backend-1-usc5.onrender.com/logout", {}, { withCredentials: true })
+    try{ await axios.post("https://devtinder-backend-1-usc5.onrender.com/logout", {}, { withCredentials: true })
   dispatch(removeUser());
 return navigate("/login");}catch(error){console.error("Logout failed:", error);}
 
@@ -80,7 +80,7 @@ return navigate("/login");}catch(error){console.error("Logout failed:", error);}
               <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
                 <DropdownMenuLabel className="font-stretch-extra-condensed">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none text-foreground">{user.firstName.toUpperCase()}</p>
+                    <p className="text-sm font-medium leading-none text-foreground">{user?.firstName ? user.firstName.toUpperCase() : "UNKNOWN"}</p>
                     <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                   </div>
                 </DropdownMenuLabel>
