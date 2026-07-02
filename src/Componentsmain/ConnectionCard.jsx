@@ -3,14 +3,12 @@ import { User, Terminal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ConnectionCard = ({ otherUser }) => {
-  // Safety check: if the user data is missing, don't crash the app
   if (!otherUser) return null;
 
   return (
     <div className="w-full max-w-sm bg-white rounded-3xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
       
       <div className="space-y-4">
-        {/* Profile Header */}
         <div className="flex items-center gap-4">
           <img 
             src={otherUser.avatar || "https://github.com/shadcn.png"} 
@@ -27,12 +25,10 @@ const ConnectionCard = ({ otherUser }) => {
           </div>
         </div>
 
-        {/* Bio Section */}
         <p className="text-sm text-zinc-600 leading-relaxed line-clamp-2">
           {otherUser.about || "No bio description provided."}
         </p>
 
-        {/* Skills Tags (Styled to match the soft purple look in your image) */}
         <div className="flex flex-wrap gap-2 pt-1">
           {otherUser.skills?.length > 0 ? (
             otherUser.skills.slice(0, 3).map((skill, index) => (
@@ -54,10 +50,6 @@ const ConnectionCard = ({ otherUser }) => {
         </div>
       </div>
 
-      {/* Action Button */}
-      {/* Note: I removed the second button to match your image exactly, 
-        but if you want the Chat button back, you can add it next to this one! 
-      */}
       <div className="mt-6 pt-4 border-t border-zinc-100">
         <Button 
           variant="outline" 

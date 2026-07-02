@@ -9,19 +9,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useSelector } from "react-redux"; // Importing useSelector to access Redux store
+import { useSelector } from "react-redux";
 import {Link} from "react-router-dom";
-import { useDispatch } from "react-redux"; // Importing useDispatch to dispatch actions
+import { useDispatch } from "react-redux";
 import { removeUser } from "../lib/userSlice";
-import { useNavigate } from "react-router-dom"; // Importing useNavigate to programmatically navigate
-import axios from "axios"; // Importing axios for making HTTP requests
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-
-// Added 'user' as a prop so it doesn't throw a "user is not defined" error
 export default function Header() {
   const user = useSelector((store) => store.user?.message || store.user);
-  const dispatch = useDispatch(); // Importing useDispatch to dispatch actions
-  const navigate = useNavigate(); // Importing useNavigate to programmatically navigate
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   const handleLogout = async () => {
     try {
@@ -34,17 +32,11 @@ export default function Header() {
   }
   
   return (
-
-    
-    // Sticky header with glass-morphism effect
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
-      {/* MAIN CONTAINER DIV */}
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
-        {/* Left Side: Logo & Brand Name */}
         <div className="flex items-center gap-2 cursor-pointer transition-transform hover:scale-105">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md">
-             {/* Random Modern Logo combining Code and Tinder concepts */}
             <Code2 className="h-5 w-5 text-white absolute" />
           </div>
           <span className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600 hidden sm:inline-block">
@@ -52,7 +44,6 @@ export default function Header() {
           </span>
         </div>
 
-        {/* Center: Main Navigation (Hidden on mobile) */}
         <nav className="hidden md:flex items-center gap-8  text-lg font-semibold text-foreground">
           <Link to="/feed" className="text-foreground transition-colors hover:text-indigo-500">Feed</Link>
           <Link to="/Matches" className="text-muted-foreground transition-colors hover:text-indigo-500">Matches</Link>
@@ -60,19 +51,16 @@ export default function Header() {
           <Link to="/Connections" className="text-muted-foreground transition-colors hover:text-indigo-500">Connections</Link>
         </nav>
 
-        {/* Right Side: Actions & Profile DIV (This was the one causing the error) */}
         <div className="flex items-center gap-2 sm:gap-4">
           <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-indigo-500 rounded-full">
             <Bell className="h-10 w-10" />
           </Button>
 
-          {/* Profile Dropdown */}
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-12 w-12 rounded-full border border-border/50 hover:bg-accent">
                   <Avatar className="h-12 w-12">
-                    {/* Random placeholder image, fallback to initials */}
                     <AvatarImage src= {user.avatar || "https://github.com/shadcn.png" } alt="@user" />
                     <AvatarFallback className="bg-indigo-100 text-indigo-700 font-semibold">BS</AvatarFallback> 
                   </Avatar>
@@ -109,9 +97,9 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-        </div> {/* <--- I ADDED THIS MISSING CLOSING TAG HERE */}
+        </div>
 
-      </div> {/* THIS CLOSES THE MAIN CONTAINER */}
+      </div>
     </header>
   );
 }

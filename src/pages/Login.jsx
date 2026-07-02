@@ -35,9 +35,8 @@ const Login = () => {
         { withCredentials: true }
       );
       
-      // Store user data in Redux
       if (res.data?.message) {
-        dispatch(addUser(res.data.user || res.data.message));
+        dispatch(addUser(res.data.message));
         navigate("/feed");
       }
     } catch (err) {
@@ -54,7 +53,6 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50 overflow-hidden relative">
       
-      {/* Decorative Background Elements */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-300/30 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-300/30 rounded-full blur-[100px] pointer-events-none" />
 

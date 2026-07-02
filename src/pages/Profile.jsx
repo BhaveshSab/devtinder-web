@@ -5,9 +5,7 @@ import { addUser } from "../lib/userSlice";
 import EditProfile from '../Componentsmain/editProfile';
 import axios from "axios";
 
-
 const Profile = () => {
- //console.log(user);
   const user = useSelector((store) => store.user?.message || store.user);
   const dispatch = useDispatch();
 
@@ -21,7 +19,6 @@ const Profile = () => {
     
   });
 
-  // Use useEffect to update the form state once the user data arrives from Redux
   useEffect(() => {
     if (user) {
       setFormData({
@@ -52,7 +49,6 @@ const Profile = () => {
         withCredentials: true,
       });
 
-      // Update Redux state with the returned updated user
       dispatch(addUser(res.data.user));
       setMessage(res.data.message);
       setTimeout(() => setMessage(""), 3000);
@@ -61,8 +57,8 @@ const Profile = () => {
       setMessage("Error updating profile.");
     }
   };
-  
-  
+   
+   
   return (
     <div>
       <EditProfile user={user} formData={formData} handleChange={handleChange} handleSave={handleSave} message={message} />

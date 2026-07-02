@@ -8,7 +8,6 @@ import { removeFeed } from "../lib/feedSlice";
 export default function UserCard({ user }) {
   const dispatch = useDispatch();
   
-  // FIX: Added '|| {}' so if user is undefined, destructuring doesn't crash
   const {
     _id,
     firstName = "Unknown",
@@ -20,7 +19,6 @@ export default function UserCard({ user }) {
     gender,
   } = user || {}; 
 
-  // Early return if data is invalid (moved above the functions for safety)
   if (!user || !firstName || firstName === "Unknown") {
     return null; 
   }
@@ -33,7 +31,6 @@ export default function UserCard({ user }) {
         { withCredentials: true }
       );
       
-      // Removes the user, causing Feed to re-render with the next person in line
       dispatch(removeFeed(_id)); 
 
     } catch (err) {
@@ -55,7 +52,6 @@ export default function UserCard({ user }) {
 
       <div className="relative w-full bg-black rounded-3xl overflow-hidden shadow-2xl border border-border/50">
         
-        {/* Image Section */}
         <div className="relative h-[420px] w-full bg-muted overflow-hidden">
           <img
             src={displayAvatar}
@@ -80,7 +76,6 @@ export default function UserCard({ user }) {
           </div>
         </div>
 
-        {/* Details Section */}
         <div className="p-6 space-y-6 bg-background/95 backdrop-blur-sm relative z-10">
           
           <div className="space-y-2">
@@ -112,7 +107,6 @@ export default function UserCard({ user }) {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center justify-center gap-6 pt-4 pb-2 border-t border-border/50">
             <motion.button
               whileHover={{ scale: 1.1 }}

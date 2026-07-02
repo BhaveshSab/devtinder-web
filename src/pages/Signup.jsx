@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../lib/userSlice";
-// FIX: Removed unused imports and added necessary ones for navigation and state management
+
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,13 +40,12 @@ const Signup = () => {
       );
       setSuccess(true);
       
-      // Store user data in Redux
       if (res.data?.message) {
         dispatch(addUser(res.data.message));
       }
       
       setTimeout(() => {
-        navigate("/login");
+        navigate("/feed");
       }, 2000);
     } catch (err) {
       console.error("Signup error:", err);
@@ -60,10 +59,8 @@ const Signup = () => {
   };
 
   return (
-    // FIX 1: Bright, soft gradient background for Light Mode
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50 overflow-hidden relative">
       
-      {/* Decorative Background Elements */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-300/30 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-300/30 rounded-full blur-[100px] pointer-events-none" />
 
@@ -73,7 +70,6 @@ const Signup = () => {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="w-full max-w-md relative z-10"
       >
-        {/* FIX 2: Solid white card with a soft shadow instead of transparent glass */}
         <div className="bg-white/80 backdrop-blur-xl border border-white rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           
           <div className="text-center mb-8">
@@ -85,7 +81,6 @@ const Signup = () => {
             >
               <Code2 className="text-indigo-600 h-6 w-6" />
             </motion.div>
-            {/* FIX 3: Changed text from white to dark gray (zinc-900) */}
             <h1 className="text-3xl font-extrabold text-zinc-900 tracking-tight mb-2">
               Create an Account
             </h1>
@@ -97,7 +92,6 @@ const Signup = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             
             <div className="grid grid-cols-2 gap-4">
-              {/* FIX 4: Inputs now have a clean, very light gray background with dark text */}
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                 <input

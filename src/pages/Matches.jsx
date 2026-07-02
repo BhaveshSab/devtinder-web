@@ -5,7 +5,6 @@ import { addRequests } from '../lib/requestSlice';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-// https://devtinder-backend-1-usc5.onrender.com/request/received
 const Matches = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.requests);
@@ -20,7 +19,7 @@ const Matches = () => {
       }
     };
   useEffect(() => {
-   
+    
     fetchRequests();
   }, [dispatch]);
 
@@ -37,7 +36,6 @@ const Matches = () => {
 
   return (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {/* Notice the curly braces wrap the map function */}
     {requests.map((req) => (
       <RequestCard 
         key={req._id} 

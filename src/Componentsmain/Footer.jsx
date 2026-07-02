@@ -1,16 +1,15 @@
 import { Code2, Heart } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6"; // Modern X/Twitter logo
+import { FaXTwitter } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
-// Animation settings for the scroll effect
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15, // Delay between each column appearing
+      staggerChildren: 0.15,
     },
   },
 };
@@ -32,13 +31,11 @@ export default function Footer() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }} // Animates when 20% of the footer enters the screen
+        viewport={{ once: true, amount: 0.2 }}
       >
-        
-        {/* Top Grid Section */}
+         
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 lg:gap-12">
-          
-          {/* Brand Column */}
+           
           <motion.div variants={itemVariants} className="flex flex-col space-y-4 md:col-span-1">
             <div className="flex items-center gap-2">
               <motion.div 
@@ -56,7 +53,6 @@ export default function Footer() {
               Connecting developers through code, passion, and collaboration. Find your perfect programming partner or co-founder.
             </p>
             
-            {/* Social Icons using react-icons */}
             <div className="flex space-x-4 text-muted-foreground">
               <motion.a whileHover={{ scale: 1.2, color: "#6366f1" }} href="#" className="transition-colors">
                 <FaGithub className="h-5 w-5" />
@@ -70,7 +66,6 @@ export default function Footer() {
             </div>
           </motion.div>
 
-          {/* Nav Links Column 1 */}
           <motion.div variants={itemVariants}>
             <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase mb-4">Explore</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -82,7 +77,6 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Nav Links Column 2 */}
           <motion.div variants={itemVariants}>
             <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase mb-4">Resources</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -94,7 +88,6 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Newsletter Column */}
           <motion.div variants={itemVariants} className="flex flex-col space-y-4">
             <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">Stay Updated</h3>
             <p className="text-sm text-muted-foreground">
@@ -116,7 +109,6 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Divider and Copyright */}
         <motion.div 
           variants={itemVariants}
           className="mt-12 border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground"

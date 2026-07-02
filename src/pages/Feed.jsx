@@ -19,7 +19,6 @@ const Feed = () => {
       
       const feedData = res?.data?.message;
       
-      // Ensure we only put arrays into Redux
       if (Array.isArray(feedData)) {
         dispatch(addFeed(feedData));
       } else {
@@ -28,7 +27,7 @@ const Feed = () => {
       
     } catch (err) {
       console.error("Error fetching feed:", err);
-      dispatch(addFeed([])); // Prevent endless loading if API fails
+      dispatch(addFeed([]));
     }
   };
 
@@ -36,7 +35,6 @@ const Feed = () => {
     getFeed();
   }, []);
 
-  // Safely check if feed is actually an array before checking length
   const hasUsers = Array.isArray(feed) && feed.length > 0;
   const isLoading = !Array.isArray(feed); 
 
@@ -45,7 +43,6 @@ const Feed = () => {
       <AnimatePresence mode="popLayout">
         {hasUsers ? (
           <UserCard 
-            // Use optional chaining (?.) so it doesn't crash if _id is missing
             key={feed[0]?._id || "fallback-key"} 
             user={feed[0]} 
           />

@@ -7,7 +7,7 @@ import { removerequest } from "../lib/requestSlice";
 
 const RequestCard = ({ request }) => {
   const sender = request?.fromUserId;
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   if (!sender) return null;
 
   const requestreview = (status,id) => {
@@ -23,12 +23,10 @@ const RequestCard = ({ request }) => {
   return (
     <div className="relative rounded-2xl border border-zinc-200 p-5 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden">
       
-      {/* Top Ribbon Indicator */}
       <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-amber-400 to-orange-500" />
 
       <div className="space-y-4 mt-2">
         
-        {/* Header: Avatar, Name, and Status */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             <img 
@@ -48,18 +46,15 @@ const RequestCard = ({ request }) => {
             </div>
           </div>
           
-          {/* Pending Status Badge */}
           <span className="shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 text-[10px] font-bold text-amber-600 border border-amber-200">
             <Clock className="h-3 w-3" /> Pending
           </span>
         </div>
 
-        {/* Bio Section */}
         <p className="text-sm text-zinc-500 line-clamp-2 min-h-[2.5rem]">
           {sender.about || "This developer hasn't added a bio yet."}
         </p>
 
-        {/* Skills Tags */}
         <div className="flex flex-wrap gap-1.5 pt-1">
           {sender.skills?.length > 0 ? (
             sender.skills.slice(0, 3).map((skill, index) => (
@@ -76,7 +71,6 @@ const RequestCard = ({ request }) => {
         </div>
       </div>
 
-      {/* Action Buttons (Using CSS Grid for perfect 50/50 sizing) */}
       <div className="grid grid-cols-2 gap-3 mt-5 pt-4 border-t border-zinc-100">
         <Button 
           variant="outline" 
